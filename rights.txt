@@ -1,0 +1,6 @@
+jane:get:pods:kittensandponies
+jane:delete:pods:kittensandponies
+alice:post:services:default
+bob:get:nodes:default
+jane:get:pods:default
+jane:list:pods:default

@@ -1,0 +1,26 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  apiServerPort: 40002
+kubeadmConfigPatches:
+- |
+  kind: ClusterConfiguration
+  metadata:
+    name: config
+  apiServer:
+    extraArgs:
+      authorization-webhook-config-file: "/authz/authz_kubeconfig.yaml"
+      authorization-mode: "RBAC,Node,Webhook"
+    extraVolumes:
+    - name: "authz"
+      hostPath: "/authz"
+      mountPath: "/authz"
+      readOnly: false
+      pathType: "Directory"
+nodes:
+- role: control-plane
+  # add a mount from /path/to/my/files on the host to /files on the node
+  extraMounts:
+  - hostPath: ./
+    containerPath: /authz
+    propagation: None
